@@ -1,0 +1,77 @@
+/**
+ * ============================================================
+ * 全局重置：抹平浏览器默认样式，统一基础排版
+ * ============================================================
+ */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	background-color: var(--color-bg);
+	color: var(--color-text);
+	font-size: 14px;
+	font-family:
+		-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, 'Segoe UI', Arial, Roboto, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+		sans-serif;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+	/** 主题切换时平滑过渡 */
+	transition:
+		background-color 0.2s ease,
+		color 0.2s ease;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure {
+	margin: 0;
+}
+
+ul,
+ol {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+a {
+	color: var(--color-primary);
+	text-decoration: none;
+}
+
+img {
+	display: block;
+	max-width: 100%;
+}
+
+button {
+	font: inherit;
+	cursor: pointer;
+}
+
+input,
+button,
+textarea,
+select {
+	color: inherit;
+	font: inherit;
+}
+
+/** 深色模式下原生控件跟随主题 */
+html[data-theme='dark'] {
+	color-scheme: dark;
+}

@@ -1,0 +1,4 @@
+{
+	"recommendations": ["vue.volar", "dbaeumer.vscode-eslint", "esbenp.prettier-vscode", "editorconfig.editorconfig"],
+	"unwantedRecommendations": ["octref.vetur", "vue.vue-extension-pack"]
+}

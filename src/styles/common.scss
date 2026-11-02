@@ -1,0 +1,45 @@
+/**
+ * ============================================================
+ * 全局 SCSS 变量与 mixin（由 vite.config.ts 全局注入，无需手动 @use）
+ * 说明：此处只放编译期常量；颜色等主题色值统一用 CSS 变量（见 variables.scss）
+ * ============================================================
+ */
+
+/** 断点：移动端优先，min-width 向上适配 */
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+/** 层级 */
+$z-header: 100;
+$z-mask: 900;
+$z-drawer: 1000;
+
+/** 垂直水平居中 */
+@mixin flex_center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/** 单行文本省略号 */
+@mixin omit {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/** 移动端适配：小于指定断点时生效 */
+@mixin mobile {
+	@media (max-width: #{$breakpoint-md - 1px}) {
+		@content;
+	}
+}
+
+/** 桌面端适配：大于等于指定断点时生效 */
+@mixin desktop {
+	@media (min-width: $breakpoint-md) {
+		@content;
+	}
+}

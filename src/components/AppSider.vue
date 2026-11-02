@@ -1,0 +1,95 @@
+<script setup lang="ts">
+/** 侧边栏：菜单项由路由表推导；窄屏时以抽屉形式展示 */
+import { menuRoutes } from '@/router'
+import AppIcon from './AppIcon.vue'
+
+defineProps<{ collapsed: boolean }>()
+const emit = defineEmits<{ navigate: [] }>()
+</script>
+
+<template>
+	<aside class="sider" :class="{ 'sider--collapsed': collapsed }">
+		<div class="sider__logo">
+			<span class="sider__logo-mark">V</span>
+			<span v-show="!collapsed" class="sider__logo-text">Admin</span>
+		</div>
+
+		<nav class="sider__nav">
+			<router-link v-for="item in menuRoutes" :key="item.path" class="sider__item" :to="`/${item.path}`" @click="emit('navigate')">
+				<AppIcon :name="(item.meta?.icon as 'menu') || 'menu'" />
+				<span v-show="!collapsed" class="sider__item-text">{{ item.meta?.title }}</span>
+			</router-link>
+		</nav>
+	</aside>
+</template>
+
+<style lang="scss" scoped>
+.sider {
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	width: 220px;
+	height: 100%;
+	background-color: var(--color-sider-bg);
+	transition: width 0.2s ease;
+
+	.sider--collapsed {
+		width: 64px;
+	}
+
+	.sider__logo {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		height: 56px;
+		padding: 0 18px;
+		color: var(--color-sider-text-active);
+		font-weight: 600;
+		white-space: nowrap;
+		overflow: hidden;
+
+		.sider__logo-mark {
+			@include flex_center;
+			flex-shrink: 0;
+			width: 28px;
+			height: 28px;
+			border-radius: 8px;
+			background-color: var(--color-primary);
+			font-size: 15px;
+		}
+	}
+
+	.sider__nav {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		padding: 8px;
+		overflow-y: auto;
+	}
+
+	.sider__item {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		height: 42px;
+		padding: 0 12px;
+		border-radius: 8px;
+		color: var(--color-sider-text);
+		white-space: nowrap;
+		overflow: hidden;
+		transition:
+			background-color 0.2s ease,
+			color 0.2s ease;
+	}
+
+	.sider__item:hover {
+		background-color: rgb(255 255 255 / 8%);
+		color: var(--color-sider-text-active);
+	}
+
+	.sider__item.router-link-active {
+		background-color: var(--color-sider-active-bg);
+		color: var(--color-sider-text-active);
+	}
+}
+</style>

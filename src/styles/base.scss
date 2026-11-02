@@ -1,0 +1,7 @@
+/** 卡片等通用容器样式：供各页面直接复用（全局 class，非 scoped） */
+.card {
+	border: 1px solid var(--color-border);
+	border-radius: 12px;
+	background-color: var(--color-bg-elevated);
+	box-shadow: var(--shadow-sm);
+}

@@ -1,0 +1,44 @@
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+node_modules
+dist
+dist-ssr
+*.local
+
+# 编辑器目录和文件
+.history
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# TypeScript / vite 构建缓存
+tsconfig.tsbuildinfo
+.vite
+
+# husky 运行时垫片（由 husky 自动生成，不入版本控制）
+.husky/_
+
+# 环境变量：模板示例文件（.env.local / .env.production）需入库，
+# 个人本地覆盖文件用 .env.*.local 命名，不入库
+.env.*.local
+.env
+# 上方 *.local 会误伤示例文件，此处显式豁免
+!.env.local
+!.env.production
+
+# 忽略
+.workbuddy
+.trae
+.trae-html-share-packages
+.cursor
+.temp
+.claude
+.screenshots

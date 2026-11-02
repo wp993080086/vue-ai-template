@@ -1,0 +1,28 @@
+# 统一换行符：文本文件一律 LF，避免跨平台 CRLF 造成假 diff
+* text=auto eol=lf
+
+# 二进制文件不做换行符转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+
+# 明确指定文本类型，便于 diff 与合并
+*.ts text
+*.tsx text
+*.js text
+*.mjs text
+*.json text
+*.vue text
+*.scss text
+*.css text
+*.md text
+*.html text
+*.yml text
+*.yaml text

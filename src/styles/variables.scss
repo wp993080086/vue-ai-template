@@ -1,0 +1,68 @@
+/**
+ * ============================================================
+ * 主题变量：所有颜色以 CSS 变量收口，通过 html[data-theme] 切换深浅色
+ * 新增颜色时两套主题都要补齐，避免深色模式下出现不可读的硬编码色
+ * ============================================================
+ */
+
+:root {
+	/** 品牌色 */
+	--color-primary: #3b82f6;
+	--color-primary-hover: #2563eb;
+	--color-success: #16a34a;
+	--color-warning: #d97706;
+	--color-danger: #dc2626;
+
+	/** 页面与容器 */
+	--color-bg: #f5f6f8;
+	--color-bg-elevated: #ffffff;
+	--color-bg-muted: #eef0f3;
+
+	/** 文本 */
+	--color-text: #1f2329;
+	--color-text-secondary: #5c6470;
+	--color-text-muted: #8a929e;
+	--color-text-inverse: #ffffff;
+
+	/** 边框与分隔线 */
+	--color-border: #e2e5ea;
+	--color-border-strong: #cbd1d9;
+
+	/** 侧边栏 */
+	--color-sider-bg: #1f2937;
+	--color-sider-text: #cbd5e1;
+	--color-sider-text-active: #ffffff;
+	--color-sider-active-bg: #3b82f6;
+
+	/** 阴影 */
+	--shadow-sm: 0 1px 2px rgb(0 0 0 / 6%);
+	--shadow-md: 0 4px 12px rgb(0 0 0 / 10%);
+}
+
+html[data-theme='dark'] {
+	--color-primary: #60a5fa;
+	--color-primary-hover: #93c5fd;
+	--color-success: #4ade80;
+	--color-warning: #fbbf24;
+	--color-danger: #f87171;
+
+	--color-bg: #121417;
+	--color-bg-elevated: #1c1f24;
+	--color-bg-muted: #262a30;
+
+	--color-text: #e6e8eb;
+	--color-text-secondary: #a8b0bb;
+	--color-text-muted: #7d8692;
+	--color-text-inverse: #121417;
+
+	--color-border: #2f343b;
+	--color-border-strong: #414852;
+
+	--color-sider-bg: #16191d;
+	--color-sider-text: #9aa4b2;
+	--color-sider-text-active: #ffffff;
+	--color-sider-active-bg: #2563eb;
+
+	--shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
+	--shadow-md: 0 4px 12px rgb(0 0 0 / 50%);
+}
