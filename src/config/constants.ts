@@ -4,6 +4,8 @@ export const APP = {
 	tokenKey: 'app-token',
 	/** @description 主题模式的本地存储 key（与 index.html 内联脚本保持一致） */
 	themeKey: 'app-theme',
+	/** @description 路由过渡动画名的本地存储 key */
+	animKey: 'app-anim',
 	/** @description 请求超时时间（毫秒） */
 	timeout: 15000
 }

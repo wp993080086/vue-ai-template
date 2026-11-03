@@ -1,0 +1,60 @@
+/**
+ * ============================================================
+ * 全局路由过渡动画：fade / slide / zoom
+ * 用法：<transition :name="animName"> 包裹 router-view，name 与下方类名前缀对应
+ * 说明：动画时长统一由 $anim-duration 控制，需要整体调速只改这一处
+ * ============================================================
+ */
+
+/** 动画时长与缓动 */
+$anim-duration: 0.24s;
+$anim-timing: ease;
+
+/** 淡入淡出 */
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity $anim-duration $anim-timing;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
+}
+
+/** 左右滑动：进入从右侧推入，离开向左淡出 */
+.slide-enter-active,
+.slide-leave-active {
+	transition:
+		transform $anim-duration $anim-timing,
+		opacity $anim-duration $anim-timing;
+}
+
+.slide-enter-from {
+	transform: translateX(24px);
+	opacity: 0;
+}
+
+.slide-leave-to {
+	transform: translateX(-24px);
+	opacity: 0;
+}
+
+/** 缩放淡入 */
+.zoom-enter-active,
+.zoom-leave-active {
+	transition:
+		transform $anim-duration $anim-timing,
+		opacity $anim-duration $anim-timing;
+}
+
+.zoom-enter-from,
+.zoom-leave-to {
+	transform: scale(0.96);
+	opacity: 0;
+}
+
+/** 无动画：供「关闭」选项使用 */
+.none-enter-active,
+.none-leave-active {
+	transition: none;
+}

@@ -4,18 +4,18 @@
 
 ## 目录职责
 
-| 目录              | 职责                                                                                 |
-| ----------------- | ------------------------------------------------------------------------------------ |
-| `src/pages/`      | 页面，路由通过 `src/router/index.ts` 注册                                            |
-| `src/layouts/`    | 布局组件，后台主框架在 `AdminLayout.vue`                                             |
-| `src/components/` | 通用组件，按需 `import`                                                              |
-| `src/stores/`     | Pinia store，组合式写法 `defineStore('name', () => {...})`                           |
-| `src/hooks/`      | 复用逻辑，命名 `useXxx`                                                              |
-| `src/utils/`      | 纯函数工具，便于单测                                                                 |
-| `src/apis/`       | 请求层，`request.ts` 统一封装，拦截器在 `interceptors.ts`                            |
-| `src/config/`     | 环境配置（`env.ts`）与常量（`constants.ts`）                                         |
-| `src/styles/`     | `variables.scss`（主题 CSS 变量）、`reset.scss`、`common.scss`（mixin）、`base.scss` |
-| `src/types/`      | 全局 TS 类型声明                                                                     |
+| 目录              | 职责                                                                                    |
+| ----------------- | --------------------------------------------------------------------------------------- |
+| `src/pages/`      | 页面，路由通过 `src/router/index.ts` 注册，单个页面独占同名目录                         |
+| `src/layouts/`    | 布局组件，后台主框架在 `AdminLayout/index.vue`，布局专属子组件（如 `AppSider`）也放这里 |
+| `src/components/` | 跨布局复用的通用组件，按需 `import`                                                     |
+| `src/stores/`     | Pinia store，组合式写法 `defineStore('name', () => {...})`                              |
+| `src/hooks/`      | 复用逻辑，命名 `useXxx`                                                                 |
+| `src/utils/`      | 纯函数工具，便于单测                                                                    |
+| `src/apis/`       | 请求层，`request.ts` 统一封装，拦截器在 `interceptors.ts`                               |
+| `src/config/`     | 环境配置（`env.ts`）与常量（`constants.ts`）                                            |
+| `src/styles/`     | `variables.scss`（主题 CSS 变量）、`reset.scss`、`common.scss`（mixin）、`base.scss`    |
+| `src/types/`      | 全局 TS 类型声明                                                                        |
 
 ## 编码约定
 
@@ -43,6 +43,9 @@
   }
   ```
 
+- **单文件样式超过 50 行必须抽离**到同级 `style.scss`，组件内用 `<style src="./style.scss" lang="scss" scoped></style>` 引入（`scoped` 仍生效，切勿删掉该属性）。
+- **组件一律独占同名目录**，入口文件固定为 `index.vue`。如 `AdminLayout/index.vue`、`AppSider/index.vue`、`pages/users/index.vue`。新增无目录的组件时同步建目录，避免出现裸 `.vue` 文件。
+- **布局专属子组件归 `layouts/`，通用组件归 `components/`**。判断标准：只服务某个布局、强依赖布局上下文的（如侧边栏 `AppSider`）放 `layouts/`；跨布局复用的（如 `AppIcon`、`ThemeToggle`）放 `components/`。
 - **颜色一律使用 `src/styles/variables.scss` 中的 CSS 变量**（如 `var(--color-text)`），禁止硬编码色值，否则深色模式会失效。
 - 新增环境变量时同步 `src/types/env.d.ts` 与 `src/config/env.ts`。
 - 新增路由时在 `meta` 中补 `title`；后台菜单直接读取路由表，无需两处维护。

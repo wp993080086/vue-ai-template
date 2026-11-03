@@ -2,6 +2,9 @@
 /** 用户管理：演示「表格 → 移动端卡片」的自适应布局 */
 import { computed, ref } from 'vue'
 
+/** 组件名与路由 name 保持一致，供 keep-alive include 匹配 */
+defineOptions({ name: 'Users' })
+
 interface IUserRow {
 	id: number
 	name: string
@@ -71,111 +74,4 @@ const filtered = computed(() => {
 	</div>
 </template>
 
-<style lang="scss" scoped>
-.users {
-	padding: 16px;
-
-	.users__toolbar {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 12px;
-		margin-bottom: 16px;
-	}
-
-	.users__title {
-		font-size: 15px;
-		font-weight: 600;
-	}
-
-	.users__search {
-		width: 220px;
-		height: 34px;
-		padding: 0 10px;
-		border: 1px solid var(--color-border);
-		border-radius: 8px;
-		background-color: var(--color-bg);
-		outline: none;
-
-		@include mobile {
-			width: 100%;
-		}
-	}
-
-	.users__search:focus {
-		border-color: var(--color-primary);
-	}
-
-	.users__table {
-		width: 100%;
-		border-collapse: collapse;
-		font-size: 14px;
-
-		th,
-		td {
-			padding: 10px 12px;
-			border-bottom: 1px solid var(--color-border);
-			text-align: left;
-		}
-
-		th {
-			color: var(--color-text-secondary);
-			font-weight: 500;
-		}
-
-		@include mobile {
-			display: none;
-		}
-	}
-
-	.users__list {
-		display: none;
-
-		@include mobile {
-			display: flex;
-			flex-direction: column;
-			gap: 10px;
-		}
-	}
-
-	.users__card {
-		padding: 12px;
-		border: 1px solid var(--color-border);
-		border-radius: 10px;
-		background-color: var(--color-bg);
-	}
-
-	.users__card-head {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-
-	.users__card-name {
-		font-weight: 600;
-	}
-
-	.users__card-role {
-		color: var(--color-text-muted);
-		font-size: 12px;
-	}
-
-	.users__card-email {
-		margin-top: 6px;
-		color: var(--color-text-secondary);
-		font-size: 13px;
-	}
-
-	.users__card-status {
-		margin-top: 4px;
-		font-size: 13px;
-	}
-
-	.users__empty {
-		padding: 24px 0;
-		color: var(--color-text-muted);
-		font-size: 14px;
-		text-align: center;
-	}
-}
-</style>
+<style src="./style.scss" lang="scss" scoped></style>

@@ -13,7 +13,7 @@ export const routes: RouteRecordRaw[] = [
 	},
 	{
 		path: '/',
-		component: () => import('@/layouts/AdminLayout.vue'),
+		component: () => import('@/layouts/AdminLayout/index.vue'),
 		redirect: '/dashboard',
 		meta: { requiresAuth: true },
 		children: [
@@ -21,13 +21,13 @@ export const routes: RouteRecordRaw[] = [
 				path: 'dashboard',
 				name: 'dashboard',
 				component: () => import('@/pages/dashboard/index.vue'),
-				meta: { title: '仪表盘', icon: 'dashboard' }
+				meta: { title: '仪表盘', icon: 'dashboard', keepAlive: true }
 			},
 			{
 				path: 'users',
 				name: 'users',
 				component: () => import('@/pages/users/index.vue'),
-				meta: { title: '用户管理', icon: 'users' }
+				meta: { title: '用户管理', icon: 'users', keepAlive: true }
 			},
 			{
 				path: 'settings',
@@ -57,6 +57,9 @@ export default router
 
 /** @description 供布局侧边栏使用的菜单项（取自路由表，避免两处维护） */
 export const menuRoutes = (routes.find((route) => route.path === '/')?.children ?? []).filter((route) => route.meta?.title)
+
+/** @description 路由 meta.keepAlive 声明的默认缓存页面 name 列表 */
+export const keepAliveRoutes = menuRoutes.filter((route) => route.meta?.keepAlive).map((route) => String(route.name))
 
 /** @description 同步页面标题 */
 export function setPageTitle(title?: string) {

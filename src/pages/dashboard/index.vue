@@ -1,5 +1,9 @@
 <script setup lang="ts">
 /** 仪表盘：演示数据卡片 + 简单列表，均为模板静态示例数据 */
+
+/** 组件名与路由 name 保持一致，供 keep-alive include 匹配 */
+defineOptions({ name: 'Dashboard' })
+
 const stats = [
 	{ label: '用户总数', value: '1,286', trend: '+12%' },
 	{ label: '今日访问', value: '3,942', trend: '+5%' },
@@ -37,69 +41,4 @@ const activities = [
 	</div>
 </template>
 
-<style lang="scss" scoped>
-.dashboard {
-	display: flex;
-	flex-direction: column;
-	gap: 16px;
-
-	.dashboard__stats {
-		display: grid;
-		gap: 16px;
-		grid-template-columns: repeat(4, minmax(0, 1fr));
-
-		@include mobile {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-			gap: 12px;
-		}
-	}
-
-	.dashboard__stat {
-		padding: 16px;
-	}
-
-	.dashboard__stat-label {
-		color: var(--color-text-secondary);
-		font-size: 13px;
-	}
-
-	.dashboard__stat-value {
-		margin-top: 8px;
-		font-size: 24px;
-		font-weight: 600;
-	}
-
-	.dashboard__stat-trend {
-		margin-top: 4px;
-		color: var(--color-success);
-		font-size: 12px;
-	}
-
-	.dashboard__panel {
-		padding: 16px;
-	}
-
-	.dashboard__panel-title {
-		margin-bottom: 12px;
-		font-size: 15px;
-		font-weight: 600;
-	}
-
-	.dashboard__activity {
-		display: flex;
-		gap: 12px;
-		padding: 10px 0;
-		border-bottom: 1px solid var(--color-border);
-		font-size: 14px;
-	}
-
-	.dashboard__activity:last-child {
-		border-bottom: none;
-	}
-
-	.dashboard__activity-time {
-		color: var(--color-text-muted);
-		font-variant-numeric: tabular-nums;
-	}
-}
-</style>
+<style src="./style.scss" lang="scss" scoped></style>

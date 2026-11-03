@@ -1,16 +1,16 @@
 <script setup lang="ts">
-/** 主题切换：循环切换 跟随系统 → 浅色 → 深色 */
+/** 主题切换：按当前实际外观翻转，避免「跟随系统」时首次点击外观无变化 */
 import { computed } from 'vue'
 import { useThemeStore } from '@/stores/theme'
 import AppIcon from './AppIcon.vue'
 
 const theme = useThemeStore()
 
-const modes: TThemeMode[] = ['auto', 'light', 'dark']
 const label = computed(() => ({ auto: '跟随系统', light: '浅色', dark: '深色' })[theme.mode])
 
+/** @description 当前实际为深色则切浅色，反之切深色，保证一次点击必定翻转外观 */
 function toggle() {
-	theme.setMode(modes[(modes.indexOf(theme.mode) + 1) % modes.length])
+	theme.setMode(theme.isDark ? 'light' : 'dark')
 }
 </script>
 

@@ -1,0 +1,64 @@
+.dashboard {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+
+	.dashboard__stats {
+		display: grid;
+		gap: 16px;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+
+		@include mobile {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 12px;
+		}
+	}
+
+	.dashboard__stat {
+		padding: 16px;
+	}
+
+	.dashboard__stat-label {
+		color: var(--color-text-secondary);
+		font-size: 13px;
+	}
+
+	.dashboard__stat-value {
+		margin-top: 8px;
+		font-size: 24px;
+		font-weight: 600;
+	}
+
+	.dashboard__stat-trend {
+		margin-top: 4px;
+		color: var(--color-success);
+		font-size: 12px;
+	}
+
+	.dashboard__panel {
+		padding: 16px;
+	}
+
+	.dashboard__panel-title {
+		margin-bottom: 12px;
+		font-size: 15px;
+		font-weight: 600;
+	}
+
+	.dashboard__activity {
+		display: flex;
+		gap: 12px;
+		padding: 10px 0;
+		border-bottom: 1px solid var(--color-border);
+		font-size: 14px;
+	}
+
+	.dashboard__activity:last-child {
+		border-bottom: none;
+	}
+
+	.dashboard__activity-time {
+		color: var(--color-text-muted);
+		font-variant-numeric: tabular-nums;
+	}
+}

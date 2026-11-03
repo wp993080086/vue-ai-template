@@ -9,3 +9,6 @@ declare type TFunc<T = TAny> = (...args: T[]) => T
 
 /** @description 主题模式：跟随系统 / 浅色 / 深色 */
 declare type TThemeMode = 'auto' | 'light' | 'dark'
+
+/** @description 路由过渡动画名，对应 animation.scss 中的类名前缀 */
+declare type TAnimName = 'none' | 'fade' | 'slide' | 'zoom'
