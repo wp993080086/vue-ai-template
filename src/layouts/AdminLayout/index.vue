@@ -6,9 +6,9 @@ import { useIsMobile } from '@/hooks/useMediaQuery'
 import { useAppStore } from '@/stores/app'
 import { useUserStore } from '@/stores/user'
 import { keepAliveRoutes } from '@/router'
-import AppIcon from '@/components/AppIcon.vue'
+import AppIcon from '@/components/AppIcon/index.vue'
 import AppSider from '@/layouts/AppSider/index.vue'
-import ThemeToggle from '@/components/ThemeToggle.vue'
+import ThemeToggle from '@/components/ThemeToggle/index.vue'
 
 const route = useRoute()
 const router = useRouter()

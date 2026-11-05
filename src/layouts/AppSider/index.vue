@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /** 侧边栏：菜单项由路由表推导；窄屏时以抽屉形式展示 */
 import { menuRoutes } from '@/router'
-import AppIcon from '@/components/AppIcon.vue'
+import AppIcon from '@/components/AppIcon/index.vue'
 
 defineProps<{ collapsed: boolean }>()
 const emit = defineEmits<{ navigate: [] }>()

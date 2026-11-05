@@ -2,7 +2,7 @@
 /** 主题切换：按当前实际外观翻转，避免「跟随系统」时首次点击外观无变化 */
 import { computed } from 'vue'
 import { useThemeStore } from '@/stores/theme'
-import AppIcon from './AppIcon.vue'
+import AppIcon from '@/components/AppIcon/index.vue'
 
 const theme = useThemeStore()
 

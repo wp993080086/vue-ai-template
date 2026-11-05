@@ -62,11 +62,11 @@
 		"node": ">=22.23.4"
 	},
 	"browserslist": [
-		"chrome >= 87",
-		"firefox >= 78",
-		"safari >= 14",
-		"edge >= 88",
-		"> 1%",
+		"chrome >= 111",
+		"edge >= 111",
+		"firefox >= 114",
+		"safari >= 16.4",
+		"ios_saf >= 16.4",
 		"not dead"
 	]
 }

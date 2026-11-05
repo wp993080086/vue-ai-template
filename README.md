@@ -16,6 +16,8 @@
 - **后台骨架** — 登录页、侧边栏 + 顶栏布局、路由守卫、404 页，克隆即可开工
 - **深色模式** — `跟随系统 / 浅色 / 深色` 三态切换，CSS 变量驱动，首屏无闪烁
 - **移动端适配** — 侧边栏自动转为抽屉，表格自动转为卡片列表，纯 CSS 断点实现
+- **路由过渡动画** — 内置 `无 / 淡入淡出 / 左右滑动 / 缩放` 四种方案，可在设置页随时切换
+- **页面缓存** — `keep-alive` 支持，路由 `meta.keepAlive` 声明默认缓存，运行时亦可动态调整
 - **开箱即用** — 已内置 Pinia、Vue Router、axios 请求封装、多环境变量、路径别名、全局 SCSS mixin
 - **工程化完备** — ESLint（扁平配置）+ Prettier + TypeScript + Vitest 全覆盖
 - **提交即校验** — husky + lint-staged 自动修复代码，commitlint 规范提交信息
@@ -37,6 +39,20 @@
 | Node       | ≥ 22.23.4              |
 
 > TypeScript 固定在 5.9.3：`typescript-eslint@8` 的 peer 要求为 `>=4.8.4 <6.1.0`，升级到 6/7 会导致 lint 工具链无法安装。
+
+## 浏览器支持
+
+产物语法下限由 Vite 决定：Vite 8 的 `build.target` 默认为 `baseline-widely-available`，对应
+
+| 浏览器  | 最低版本 |
+| ------- | -------- |
+| Chrome  | 111      |
+| Edge    | 111      |
+| Firefox | 114      |
+| Safari  | 16.4     |
+| iOS     | 16.4     |
+
+`package.json` 的 `browserslist` 字段与上表保持一致，供 autoprefixer 等后续引入的工具消费（当前模板未内置）。若需兼容更低版本，需同时下调 `vite.config.ts` 的 `build.target` 并引入相应 polyfill。
 
 ## 快速开始
 
@@ -64,14 +80,15 @@ npm run preview
 
 作为模板复用时，**先改这几处**（否则会带着 `vue-ai-template` 的名字上线）：
 
-| 文件                                                              | 改什么                           |
-| ----------------------------------------------------------------- | -------------------------------- |
-| `package.json` → `name`                                           | 项目名                           |
-| `.env.local` / `.env.production` → `VITE_TITLE` / `VITE_BASE_URL` | 应用标题与各环境接口地址         |
-| `src/config/constants.ts` → `APP.tokenKey` / `APP.themeKey`       | 本地存储 key 前缀                |
-| `src/stores/user.ts` → `login`                                    | 把 mock 登录换成真实接口调用     |
-| `src/apis/api/user.ts`                                            | 按后端约定调整接口路径与数据结构 |
-| `src/apis/interceptors.ts`                                        | 按后端约定调整响应结构与业务码   |
+| 文件                                                              | 改什么                             |
+| ----------------------------------------------------------------- | ---------------------------------- |
+| `package.json` → `name`                                           | 项目名                             |
+| `.env.local` / `.env.production` → `VITE_TITLE` / `VITE_BASE_URL` | 应用标题与各环境接口地址           |
+| `src/config/constants.ts` → `APP.tokenKey` / `APP.themeKey`       | 本地存储 key 前缀                  |
+| `src/stores/user.ts` → `login`                                    | 把 mock 登录换成真实接口调用       |
+| `src/apis/api/user.ts`                                            | 按后端约定调整接口路径与数据结构   |
+| `src/apis/request-interceptor.ts`                                 | 按后端约定调整请求头、鉴权与业务码 |
+| `src/apis/response-interceptor.ts`                                | 按后端约定调整响应结构与错误处理   |
 
 ## 目录结构
 
@@ -82,23 +99,25 @@ npm run preview
 │   ├── App.vue               应用根组件（仅承载路由出口）
 │   ├── main.ts               应用入口（注册 Pinia / Router / 请求层 / 全局样式）
 │   ├── layouts/
-│   │   └── AdminLayout.vue   后台布局（侧边栏 + 顶栏 + 移动端抽屉）
+│   │   ├── AdminLayout/      后台布局（侧边栏 + 顶栏 + 移动端抽屉）
+│   │   └── AppSider/         布局专属子组件（侧边栏菜单）
 │   ├── pages/
 │   │   ├── login/            登录页
 │   │   ├── dashboard/        仪表盘（示例页）
 │   │   ├── users/            用户管理（表格 / 移动端卡片示例）
-│   │   ├── settings/         系统设置（主题切换示例）
-│   │   └── error/404.vue     404 页
+│   │   ├── settings/         系统设置（主题 / 动画 / 缓存示例）
+│   │   └── error/NotFound/   404 页
 │   ├── router/
-│   │   ├── index.ts          路由表（含菜单 meta）
-│   │   └── guard.ts          全局守卫（登录校验 + 页面标题）
-│   ├── components/           AppSider / ThemeToggle / AppIcon
-│   ├── stores/               Pinia store（theme / user / counter 示例）
+│   │   ├── index.ts          路由实例（装配 routes 与守卫）
+│   │   ├── guard.ts          全局守卫（登录校验 + 页面标题）
+│   │   └── routes/           路由表拆分（base 公共路由 + admin 后台路由）
+│   ├── components/           通用组件（AppIcon / ThemeToggle，各自独占同名目录）
+│   ├── stores/               Pinia store（theme / user / app / counter 示例）
 │   ├── hooks/                复用逻辑（useMediaQuery / useToggle 示例）
 │   ├── utils/                纯函数工具（date.ts 示例 + 单测）
-│   ├── apis/                 请求层（request.ts + interceptors.ts + api/）
+│   ├── apis/                 请求层（request.ts + 请求/响应拦截器 + api/）
 │   ├── config/               环境配置（env.ts）与常量（constants.ts）
-│   ├── styles/               variables（主题变量）/ reset / common（mixin）/ base
+│   ├── styles/               variables（主题变量）/ reset / common（mixin）/ base / animation（过渡动画）
 │   └── types/                全局 TS 类型声明
 ├── .env.local                本地环境变量（示例，已入库）
 ├── .env.production           正式环境变量（示例，已入库）
@@ -121,7 +140,24 @@ npm run preview
 - `index.html` 内联了首屏防闪烁脚本，在 Vue 挂载前同步设置 `data-theme`，避免深色下白屏闪烁。
 - **写样式时请用 `var(--color-xxx)`，不要硬编码色值**，否则深色模式会失效。
 
-切换入口有两处：顶栏的主题按钮（循环切换）和「系统设置」页的单选组。
+切换入口有两处：顶栏的主题按钮（在明 / 暗之间直接翻转，保证一次点击即生效）和「系统设置」页的单选组（完整三态，含「跟随系统」）。
+
+## 路由过渡动画
+
+内置 `无` / `淡入淡出` / `左右滑动` / `缩放` 四种方案，样式集中在 `src/styles/animation.scss`。
+
+- 当前方案存在 `src/stores/app.ts`，持久化在 `localStorage`，可在「系统设置」页随时切换。
+- 切换由 `AdminLayout` 的 `<transition :name="app.anim" mode="out-in">` 驱动，`name` 与 `animation.scss` 中的类名前缀一一对应。
+- 新增动画时，在 `animation.scss` 补一组 `.xxx-enter-*` / `.xxx-leave-*` 类，并把名称加进 `app.ts` 的 `animOptions` 即可。
+
+## 页面缓存
+
+`keep-alive` 的缓存名单由两部分合并而成（见 `AdminLayout/index.vue`）：
+
+- **声明式默认值** — 路由 `meta.keepAlive: true` 的页面，其 `name` 会进入默认缓存名单（汇总在 `src/router/routes/index.ts` 的 `keepAliveRoutes`）。
+- **运行时动态调整** — `src/stores/app.ts` 的 `addCache` / `removeCache` 可在运行期增删缓存页面。
+
+> 被缓存的页面必须显式声明 `name`（路由 `name` 与组件 `name` 一致），否则 `include` 无法匹配。
 
 ## 移动端适配
 
@@ -161,7 +197,7 @@ npm run test:watch   # 监听模式
 
 - **组合式 API**：页面/组件一律 `<script setup lang="ts">`，复用逻辑写 `useXxx` composable。
 - **状态管理**：Pinia，store 放 `src/stores/`，组合式写法（`defineStore('name', () => {...})`）。
-- **请求**：统一走 `src/apis/request.ts`，不要在页面里直接用 axios；业务接口放 `src/apis/api/`，请求/响应拦截逻辑集中在 `src/apis/interceptors.ts`。
+- **请求**：统一走 `src/apis/request.ts`，不要在页面里直接用 axios；业务接口放 `src/apis/api/`，请求拦截逻辑在 `src/apis/request-interceptor.ts`，响应拦截逻辑在 `src/apis/response-interceptor.ts`。
 - **样式**：语义 class + scoped SCSS；`vite.config.ts` 已全局注入 `src/styles/common.scss`，页面内可直接用 `flex_center` / `omit` / `mobile` / `desktop`，无需手动 `@use`。
 - **颜色**：一律用 `src/styles/variables.scss` 的 CSS 变量。
 - **路径别名**：`@` → `src`。

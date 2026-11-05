@@ -4,18 +4,18 @@
 
 ## 目录职责
 
-| 目录              | 职责                                                                                    |
-| ----------------- | --------------------------------------------------------------------------------------- |
-| `src/pages/`      | 页面，路由通过 `src/router/index.ts` 注册，单个页面独占同名目录                         |
-| `src/layouts/`    | 布局组件，后台主框架在 `AdminLayout/index.vue`，布局专属子组件（如 `AppSider`）也放这里 |
-| `src/components/` | 跨布局复用的通用组件，按需 `import`                                                     |
-| `src/stores/`     | Pinia store，组合式写法 `defineStore('name', () => {...})`                              |
-| `src/hooks/`      | 复用逻辑，命名 `useXxx`                                                                 |
-| `src/utils/`      | 纯函数工具，便于单测                                                                    |
-| `src/apis/`       | 请求层，`request.ts` 统一封装，拦截器在 `interceptors.ts`                               |
-| `src/config/`     | 环境配置（`env.ts`）与常量（`constants.ts`）                                            |
-| `src/styles/`     | `variables.scss`（主题 CSS 变量）、`reset.scss`、`common.scss`（mixin）、`base.scss`    |
-| `src/types/`      | 全局 TS 类型声明                                                                        |
+| 目录              | 职责                                                                                                                   |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `src/pages/`      | 页面，路由表见 `src/router/routes/`，单个页面独占同名目录                                                              |
+| `src/layouts/`    | 布局组件，后台主框架在 `AdminLayout/index.vue`，布局专属子组件（如 `AppSider`）也放这里                                |
+| `src/components/` | 跨布局复用的通用组件（如 `AppIcon`、`ThemeToggle`），按需 `import`                                                     |
+| `src/stores/`     | Pinia store，组合式写法 `defineStore('name', () => {...})`                                                             |
+| `src/hooks/`      | 复用逻辑，命名 `useXxx`                                                                                                |
+| `src/utils/`      | 纯函数工具，便于单测                                                                                                   |
+| `src/apis/`       | 请求层，`request.ts` 统一封装，请求/响应拦截器分列 `request-interceptor.ts`、`response-interceptor.ts`                 |
+| `src/config/`     | 环境配置（`env.ts`）与常量（`constants.ts`）                                                                           |
+| `src/styles/`     | `variables.scss`（主题 CSS 变量）、`reset.scss`、`common.scss`（mixin）、`base.scss`、`animation.scss`（路由过渡动画） |
+| `src/types/`      | 全局 TS 类型声明                                                                                                       |
 
 ## 编码约定
 
@@ -49,12 +49,19 @@
 - **颜色一律使用 `src/styles/variables.scss` 中的 CSS 变量**（如 `var(--color-text)`），禁止硬编码色值，否则深色模式会失效。
 - 新增环境变量时同步 `src/types/env.d.ts` 与 `src/config/env.ts`。
 - 新增路由时在 `meta` 中补 `title`；后台菜单直接读取路由表，无需两处维护。
+- 路由表拆分在 `src/router/routes/`（`base.ts` 公共路由 + `admin.ts` 后台路由 + `index.ts` 汇总），`src/router/index.ts` 只负责创建实例与装配守卫。
 
 ## 主题与移动端
 
 - 主题通过 `html[data-theme='light' | 'dark']` 切换，状态在 `src/stores/theme.ts`。
 - 首屏防闪烁脚本内联在 `index.html`，其存储 key 必须与 `src/config/constants.ts` 的 `APP.themeKey` 一致。
 - 移动端断点常量有两处，修改时必须同步：`src/styles/common.scss` 的 `$breakpoint-md` 与 `src/hooks/useMediaQuery.ts` 的 `MOBILE_MAX_WIDTH`。
+
+## 过渡动画与页面缓存
+
+- 路由过渡动画样式统一放 `src/styles/animation.scss`，新增动画须在 `src/stores/app.ts` 的 `animOptions` 中登记，两处名称保持一致。
+- 需要缓存的页面在路由 `meta` 中声明 `keepAlive: true`；运行时增删缓存走 `src/stores/app.ts` 的 `addCache` / `removeCache`。
+- 被 `keep-alive` 缓存的页面必须声明 `name`，且与路由 `name` 一致，否则 `include` 无法匹配。
 
 ## 提交规范
 
